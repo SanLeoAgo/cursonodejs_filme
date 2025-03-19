@@ -1,16 +1,24 @@
+import salvarFilmeService from "../service/filme/salvarFilmeService.js"
+
 import { Router } from "express";
-import { salvarFilme } from "../repository/filmeRepository.js";
+
 const endpoints=Router();
 
 endpoints.post('/filme',async(req,resp)=>{
-    //ler o objeto filme por completo
+    try {
+
     let filmeObj=req.body;
-    //passa o objeto como parâmetro para a função que salva o filme
-    let id=await salvarFilme(filmeObj);
+    let id = await salvarFilmeService(filmeObj);
+
     resp.send({
         id:id
     });
+    } catch (error) {
+        logError(error);
+        resp.status(400).send(criaError(error));
+    }
 });
+
 
 
 export default endpoints;
