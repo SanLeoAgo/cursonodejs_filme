@@ -14,3 +14,41 @@ export async function salvarFilme(filme){
     let idFilme=info.insertId;
     return idFilme;
 }; 
+
+// export async function consultarFilmes(nome){
+
+
+//     let comando= `
+//     SELECT id_filme,
+//             nm_filme,
+//             vl_avaliacao,
+//             dt_lancamento,
+//             bt_disponivel
+//         FROM tb_filme
+//         WHERE nm_filme like ?
+//     `
+//                        maldito vc esqueceu de colocar uma vígula
+//                                         ||
+//                                         \/
+//     let resposta= await con.query(comando['%'+ nome +'%']);
+//     let registros = resposta[0];
+
+//     return registros;
+
+// };
+export async function consultarFilmes(nome) {
+    let comando = `
+    SELECT id_filme,
+           nm_filme,
+           vl_avaliacao,
+           dt_lancamento,
+           bt_disponivel
+      FROM tb_filme
+     WHERE nm_filme LIKE ?
+    `;
+
+    let resposta = await con.query(comando, ['%' + nome + '%']);
+    let registros = resposta[0];
+
+    return registros;
+};
