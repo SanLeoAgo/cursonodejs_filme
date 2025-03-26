@@ -1,6 +1,7 @@
 import salvarFilmeService from "../service/filme/salvarFilmeService.js"
 import consultarFilmesService from "../service/filme/consultarFilmeService.js";
 import { Router } from "express";
+import consultarFilmePorIdService from "../service/filme/consultarFilmePorIdService.js";
 
 const endpoints=Router();
 
@@ -23,7 +24,7 @@ endpoints.get('/filme',async(req,resp)=>{
     try {
         let nome = req.query.nome;
 
-        let [registros] = await consultarFilmesService(nome);
+        let registros = await consultarFilmesService(nome);
  
         resp.send(registros);
 
@@ -33,5 +34,16 @@ endpoints.get('/filme',async(req,resp)=>{
     }
 });
 
+endpoints.get('/filme/:id', async(req,resp)=>{
+    try {
+
+       let id = req.params.id;
+       let filme = await consultarFilmePorIdService(id);
+        resp.send(filme);
+    } catch (error) {
+        logError(error);
+        resp.status(400).send(criaError(error));
+    }
+})
 
 export default endpoints;

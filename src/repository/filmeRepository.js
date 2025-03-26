@@ -38,16 +38,53 @@ export async function salvarFilme(filme){
 // };
 export async function consultarFilmes(nome) {
     let comando = `
-    SELECT id_filme,
-           nm_filme,
-           vl_avaliacao,
-           dt_lancamento,
-           bt_disponivel
+    SELECT id_filme as id,
+           nm_filme as nome,
+           ds_sinopse as sinopse,
+           vl_avaliacao as avaliacao,
+           dt_lancamento as lancamento,
+           bt_disponivel as disponivel
       FROM tb_filme
      WHERE nm_filme LIKE ?
     `;
 
     let resposta = await con.query(comando, ['%' + nome + '%']);
+    let registros = resposta[0];
+
+    return registros;
+};
+
+export async function consultarFilmePorNome(nome) {
+    let comando = `
+    SELECT id_filme as id,
+           nm_filme as nome,
+           vl_avaliacao as avaliacao,
+           dt_lancamento as lancamento,
+           bt_disponivel as disponivel
+      FROM tb_filme
+     WHERE nm_filme = ?
+    `;
+
+    let resposta = await con.query(comando, [nome]);
+    let registros = resposta[0];
+
+    return registros;
+};
+
+export async function consultarFilmesPorId(id) {
+    let comando = `
+    SELECT id_filme as id,
+           nm_filme as nome,
+           ds_sinopse as sinopse,
+           vl_avaliacao as avaliacao,
+           dt_lancamento as lancamento,
+           bt_disponivel as disponivel,
+           img_filme as img
+      FROM tb_filme
+     WHERE id_filme = ?
+    `;
+
+    let resposta = await con.query(comando, [id]);
     let registros = resposta[0];
 
     return registros;
