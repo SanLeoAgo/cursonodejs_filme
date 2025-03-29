@@ -2,6 +2,7 @@ import salvarFilmeService from "../service/filme/salvarFilmeService.js"
 import consultarFilmesService from "../service/filme/consultarFilmeService.js";
 import { Router } from "express";
 import consultarFilmePorIdService from "../service/filme/consultarFilmePorIdService.js";
+import alterarFilmeService from "../service/filme/alterarFilmeService.js";
 
 const endpoints=Router();
 
@@ -44,6 +45,25 @@ endpoints.get('/filme/:id', async(req,resp)=>{
         logError(error);
         resp.status(400).send(criaError(error));
     }
-})
+});
+
+endpoints.put('/filme/:id',async(req, resp)=>{
+
+    try { 
+        
+    //ler entradas
+    let filmeObj = req.body;
+    let id = req.params.id;
+
+    //processamento service
+    await alterarFilmeService(filmeObj,id);
+
+    //saida response
+    resp.status(204).send();
+    } catch (error) {
+        logError(error);
+        resp.status(400).send(criaError(error));
+    }
+});
 
 export default endpoints;

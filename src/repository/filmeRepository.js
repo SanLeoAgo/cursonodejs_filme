@@ -89,3 +89,28 @@ export async function consultarFilmesPorId(id) {
 
     return registros;
 };
+
+export async function alterarFilme(filme,id) {
+    let comando = `
+        UPDATE tb_filme
+            SET nm_filme = ?,
+                ds_sinopse = ?,
+                vl_avaliacao = ?,
+                dt_lancamento = ?,
+                bt_disponivel = ?
+            WHERE id_filme = ?;
+  `;
+
+  let resposta = await con.query(comando, [
+    filme.nome,
+    filme.sinopse,
+    filme.avaliacao,
+    filme.lancamento,
+    filme.disponivel,
+    id]);
+
+    let info = resposta[0];
+    let linhasAfetadas=info.affectedRows;
+
+    return linhasAfetadas;
+};
