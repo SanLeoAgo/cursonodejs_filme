@@ -114,3 +114,28 @@ export async function alterarFilme(filme,id) {
 
     return linhasAfetadas;
 };
+
+export async function deletarFilme(id) {
+    let comando=`
+    DELETE FROM tb_filme WHERE id_filme = ?
+    `;
+    let resposta =await con.query(comando,[id]);
+    let info =resposta[0];
+    let linhasAfetadas = info.affectedRows;
+
+    return linhasAfetadas;
+};
+
+export async function alterarCapaFilme(id,caminho) {
+    let comando = `
+    UPDATE tb_filme
+        SET img_filme = ?
+        WHERE id_filme = ?;
+`;
+
+let resposta = await con.query(comando,[caminho,id]);
+let info = resposta[0];
+let linhasAfetadas=info.affectedRows;
+
+return linhasAfetadas;
+};
